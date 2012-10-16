@@ -25,7 +25,6 @@ captureApp.prototype={
     },
     
     _captureVideo:function() {
-        console.log("invideo");
     	navigator.device.capture.captureVideo(captureApp._captureSuccess, captureApp._captureError, {limit:1});
     },
     
