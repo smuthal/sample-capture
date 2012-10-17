@@ -3,15 +3,22 @@
 	<head>
 		<title>Capture Demo</title>
 		<meta charset="utf-8">
-        <link rel="stylesheet" href="styles/main.css" />
+		<link rel="stylesheet" href="styles/main.css" />
 		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 		<script type="text/javascript" charset="utf-8" src="scripts/main.js"></script>
 	</head>
 	<body>
-		<h1>Capture Sample</h1>
-		<button id="captureVideo">Capture Video</button> <br />
-		<button id="captureAudio" >Capture Audio</button> <br/>
-		<button id="captureImage">Capture Image</button><br/>
-		<div id="media"></div>
+		<header class="header">
+			<h1>Capture Sample</h1>
+		</header>
+		<div class="content">
+			<button class="button" id="captureVideo">Capture Video</button>
+			<button class="button" id="captureAudio" >Capture Audio</button>
+			<button class="button defaultBigButton" id="captureImage">Capture Image</button><br/>
+			<div id="media"></div>
+		</div>
 	</body>
+	<footer class="footer">
+		<div>Cordova API Samples</div>
+	</footer>
 </html>

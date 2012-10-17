@@ -5,49 +5,69 @@ function id(element) {
 }
 
 function onDeviceReady() {
-    captureApp = new captureApp();
-    captureApp.run();
+	captureApp = new captureApp();
+	captureApp.run();
 }
 
+function captureApp() {
+}
 
-function captureApp(){}
-
-captureApp.prototype={
-    pictureSource:null,
+captureApp.prototype = {
+	pictureSource:null,
     
-    destinationType:null,
+	destinationType:null,
     
-    run:function(){
-        var that = this;
-	    id("captureVideo").addEventListener("click", that._captureVideo);
-	    id("captureAudio").addEventListener("click", that._capureAudio);
-	    id("captureImage").addEventListener("click", that._captureImage);
-    },
+	run:function() {
+		var that = this;
+		id("captureVideo").addEventListener("click", function() {
+			that._captureVideo.apply(that, arguments);
+		});
+		id("captureAudio").addEventListener("click", function() {
+			that._capureAudio.apply(that, arguments);
+		});
+		id("captureImage").addEventListener("click", function() {
+			that._captureImage.apply(that, arguments);
+		});
+	},
     
-    _captureVideo:function() {
-    	navigator.device.capture.captureVideo(captureApp._captureSuccess, captureApp._captureError, {limit:1});
-    },
+	_captureVideo:function() {
+		var that = this;
+		navigator.device.capture.captureVideo(function() {
+			that._captureSuccess.apply(that, arguments);
+		}, function() { 
+			captureApp._captureError.apply(that, arguments);
+		}, {limit:1});
+	},
     
-    _capureAudio:function() {
-    	navigator.device.capture.captureAudio(captureApp._captureSuccess, captureApp._captureError, {limit: 1});
-    },
+	_capureAudio:function() {
+		var that = this;
+		navigator.device.capture.captureAudio(function() {
+			that._captureSuccess.apply(that, arguments);
+		}, function() { 
+			captureApp._captureError.apply(that, arguments);
+		}, {limit:1});
+	},
     
-    _captureImage:function() {
-    	navigator.device.capture.captureImage(captureApp._captureSuccess, captureApp._captureError, {limit: 1})
-    },
+	_captureImage:function() {
+		var that = this;
+		navigator.device.capture.captureImage(function() {
+			that._captureSuccess.apply(that, arguments);
+		}, function() { 
+			captureApp._captureError.apply(that, arguments);
+		}, {limit:1});
+	},
     
-    _captureSuccess:function(capturedFiles) {
-    	var i,
-    	media = document.getElementById("media");
-    	media.innerHTML = "";
-    	for (i=0;i < capturedFiles.length;i+=1) {
-    		media.innerHTML+='<p>Capture taken! Its path is: ' + capturedFiles[i].fullPath + '</p>'
-    	}
-    },
+	_captureSuccess:function(capturedFiles) {
+		var i,
+		media = document.getElementById("media");
+		media.innerHTML = "";
+		for (i=0;i < capturedFiles.length;i+=1) {
+			media.innerHTML+='<p>Capture taken! Its path is: ' + capturedFiles[i].fullPath + '</p>'
+		}
+	},
     
-    _captureError:function(error) {
-    	var media = document.getElementById("media");
-    	media.innerHTML = "";
-    	media.innerHTML = "Error occured! Code:" + error.code;
-    },
+	_captureError:function(error) {
+		var media = document.getElementById("media");
+		media.innerHTML = "An error occured! Code:" + error.code;
+	},
 }
