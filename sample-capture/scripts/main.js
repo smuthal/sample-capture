@@ -28,6 +28,9 @@ captureApp.prototype = {
 		id("captureImage").addEventListener("click", function() {
 			that._captureImage.apply(that, arguments);
 		});
+		id("selectImage").addEventListener("click", function() {
+			that._selectImage.apply(that, arguments);
+		});
 	},
     
 	_captureVideo:function() {
@@ -50,24 +53,58 @@ captureApp.prototype = {
     
 	_captureImage:function() {
 		var that = this;
-		navigator.device.capture.captureImage(function() {
+		/*navigator.device.capture.captureImage(function() {
+		that._captureSuccess.apply(that, arguments);
+		}, function() { 
+		captureApp._captureError.apply(that, arguments);
+		}, {limit:1});*/
+		that._capture(Camera.PictureSourceType.CAMERA);
+	},
+    
+	_selectImage:function() {
+		var that = this;
+		/*navigator.device.capture.captureImage(function() {
+		that._captureSuccess.apply(that, arguments);
+		}, function() { 
+		captureApp._captureError.apply(that, arguments);
+		}, {limit:1});*/
+		console.log("Select Image");
+		that._capture(Camera.PictureSourceType.SAVEDPHOTOALBUM);
+	},
+    
+	_capture: function(sourceType) {
+		var that = this;
+		console.log("Capture Fn", sourceType);
+		navigator.camera.getPicture(function() {
 			that._captureSuccess.apply(that, arguments);
 		}, function() { 
 			captureApp._captureError.apply(that, arguments);
-		}, {limit:1});
+		}, {
+			destinationType: Camera.DestinationType.FILE_URI,
+			encodingType:Camera.EncodingType.JPEG,
+			mediaType:Camera.MediaType.PICTURE,
+			allowEdit : true,
+			quality : 75, 
+			targetWidth: 200,
+			targetHeight: 200,
+			sourceType: sourceType,
+			correctOrientation: true,
+			saveToPhotoAlbum: false,
+		});
 	},
-    
 	_captureSuccess:function(capturedFiles) {
-		var i,
+		console.log("On_captureSuccess", capturedFiles);
+		/*var i,
 		media = document.getElementById("media");
 		media.innerHTML = "";
 		for (i=0;i < capturedFiles.length;i+=1) {
-			media.innerHTML+='<p>Capture taken! Its path is: ' + capturedFiles[i].fullPath + '</p>'
-		}
+		media.innerHTML+='<p>Capture taken! Its path is: ' + capturedFiles[i].fullPath + '</p>'
+		}*/
 	},
     
 	_captureError:function(error) {
-		var media = document.getElementById("media");
-		media.innerHTML = "An error occured! Code:" + error.code;
+		console.log("On_captureError", "An error occured! Code:" + error.code);
+	/*	var media = document.getElementById("media");
+		media.innerHTML = "An error occured! Code:" + error.code;*/
 	},
 }
