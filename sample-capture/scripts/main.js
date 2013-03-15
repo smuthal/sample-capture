@@ -94,17 +94,17 @@ captureApp.prototype = {
 	},
 	_captureSuccess:function(capturedFiles) {
 		console.log("On_captureSuccess", capturedFiles);
-		/*var i,
+		var i,
 		media = document.getElementById("media");
 		media.innerHTML = "";
 		for (i=0;i < capturedFiles.length;i+=1) {
 		media.innerHTML+='<p>Capture taken! Its path is: ' + capturedFiles[i].fullPath + '</p>'
-		}*/
+		}
 	},
     
 	_captureError:function(error) {
 		console.log("On_captureError", "An error occured! Code:" + error.code);
-	/*	var media = document.getElementById("media");
-		media.innerHTML = "An error occured! Code:" + error.code;*/
+		var media = document.getElementById("media");
+		media.innerHTML = "An error occured! Code:" + error.code;
 	},
 }
